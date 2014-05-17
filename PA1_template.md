@@ -28,7 +28,7 @@ ifelse(!file.exists("data"),dir.create("data"),"dir exists")
 ```
 
 ```
-[1] TRUE
+[1] "dir exists"
 ```
 
 ```r
@@ -39,7 +39,7 @@ ifelse(!file.exists("./data/activity.zip"),
 ```
 
 ```
-[1] 0
+[1] "Skip! File downloaded"
 ```
 
 ```r
@@ -73,6 +73,8 @@ head(act)
 
 ```r
 ## Histogram using ggplot2
+mean<-mean(sum$total_steps)
+med<-median(sum$total_steps)
 library(ggplot2)
       m <- ggplot(sum, aes(x=total_steps))
       m + 
@@ -81,7 +83,10 @@ library(ggplot2)
         labs(x="Total Steps Taken per day per subject",ces=1.2) +
         scale_fill_gradient("Count", low = "green", high = "red") +
         scale_y_continuous("Count by days") +
-        scale_x_continuous(breaks=c(seq(0,22500, by=2500)))
+        scale_x_continuous(breaks=c(seq(0,22500, by=2500))) +
+        geom_vline(xintercept=c(mean,med),show.guide=T)+
+        geom_text(data=NULL,x=mean-1000,y=8,label=paste("mean\n",round(mean,0)))+
+        geom_text(data=NULL,x=med+1000,y=9,label=paste("median\n",med))
 ```
 
 <div class="rimage center"><img src="fig/unnamed-chunk-2.png" title="plot of chunk unnamed-chunk-2" alt="plot of chunk unnamed-chunk-2" class="plot" /></div>
@@ -91,9 +96,6 @@ library(ggplot2)
 
 
 ```r
-mean<-mean(sum$total_steps)
-med<-median(sum$total_steps)
-
 print(paste("Mean of total number of steps taken per day is:",round(mean,1)))
 ```
 
@@ -232,6 +234,8 @@ setnames(sum,"V1","total_steps")
 ##re-generating ENDs
 
 ## Histogram using ggplot2
+mean<-mean(sum$total_steps)
+med<-median(sum$total_steps)
 library(ggplot2)
       m <- ggplot(sum, aes(x=total_steps))
       m + 
@@ -240,7 +244,10 @@ library(ggplot2)
         labs(x="Total Steps Taken per day per subject",ces=1.2) +
         scale_fill_gradient("Count", low = "green", high = "red") +
         scale_y_continuous("Count by days") +
-        scale_x_continuous(breaks=c(seq(0,22500, by=2500)))
+        scale_x_continuous(breaks=c(seq(0,22500, by=2500))) +
+        geom_vline(xintercept=c(mean,med),show.guide=T)+
+        geom_text(data=NULL,x=mean-1000,y=6,label=paste("mean\n",round(mean,0)))+
+        geom_text(data=NULL,x=med+1000,y=7,label=paste("median\n",med))
 ```
 
 <div class="rimage center"><img src="fig/unnamed-chunk-7.png" title="plot of chunk unnamed-chunk-7" alt="plot of chunk unnamed-chunk-7" class="plot" /></div>
