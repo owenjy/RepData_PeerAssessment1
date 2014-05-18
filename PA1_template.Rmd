@@ -148,7 +148,7 @@ library(ggplot2)
 
 ## Are there differences in activity patterns between weekdays and weekends?
 
-```{r,fig.width=15,fig.height=8,results = 'asis',tidy=F}
+```{r,fig.width=15,fig.height=10,results = 'asis',tidy=F}
 ##re-generate table for chartting.
 act$weekday<-weekdays(strptime(as.character(act$date),"%Y-%m-%d"),abbreviate = T)
 act$weekend<-ifelse((act$weekday =="Sat" | act$weekday=="Sun"),'weekend','weekday')
