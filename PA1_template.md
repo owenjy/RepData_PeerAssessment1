@@ -154,7 +154,7 @@ print(paste("Intrval that contains the maximum number of steps is:",max_step_int
 
 
 # Imputing missing values
-### My plan is to replace Na with Median # of Steps take per interval.
+### My plan is to replace NAs with Median # of Steps taken per interval.
 
 
 ```r
