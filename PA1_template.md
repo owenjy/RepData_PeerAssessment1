@@ -116,7 +116,7 @@ print(paste("Median of total number of steps taken per day is:",round(med,1)))
   
 # What is the average daily activity pattern?
 
-## 1.Make a time series plot (i.e. type = "l") of the 5-minute interval (x-axis) and the average number of steps taken, averaged across all days (y-axis)
+## Make a time series plot (i.e. type = "l") of the 5-minute interval (x-axis) and the average number of steps taken, averaged across all days (y-axis)
 
 
 
@@ -125,15 +125,21 @@ print(paste("Median of total number of steps taken per day is:",round(med,1)))
     dt<-data.table(act)
     avg_data<-dt[,mean(steps,na.rm=TRUE),by=interval]
     setnames(avg_data,"V1","avg_step_interval")
+    max_step_interval<-data.frame(avg_data[which(avg_data$avg_step_interval==max(avg_data$avg_step_interval)),])[,1]
+
     library(lattice)
-    xyplot(avg_step_interval ~ interval,data=avg_data,type='l',lty=1,main="Average Steps per interval",xlab="")
+    xyplot(avg_step_interval ~ interval,data=avg_data,type='l',lty=1,main="Average Steps per interval",xlab="",
+           panel = function(...) {
+         panel.abline(v=max_step_interval,lty = "dotted", col = "grey8")
+         panel.text(max_step_interval, 5, label=paste0("Interval that contains the maximum \nnumber of steps is: ",max_step_interval),pos=4,cex=1.23)
+         panel.xyplot(...)})
 ```
 
 <div class="rimage center"><img src="fig/unnamed-chunk-4.png" title="plot of chunk unnamed-chunk-4" alt="plot of chunk unnamed-chunk-4" class="plot" /></div>
 
 
 
-## 2. Which 5-minute interval, on average across all the days in the dataset, contains the maximum number of steps?
+## Which 5-minute interval, on average across all the days in the dataset, contains the maximum number of steps?
 
 
 ```r
@@ -148,7 +154,7 @@ print(paste("Intrval that contains the maximum number of steps is:",max_step_int
 
 
 # Imputing missing values
-
+### My plan is to replace Na with Median # of Steps take per interval.
 
 
 ```r
@@ -240,7 +246,7 @@ library(ggplot2)
       m <- ggplot(sum, aes(x=total_steps))
       m + 
         geom_histogram(aes(fill = ..count..),binwidth = 500) +
-        labs(title="Histogram of Daily Total Steps Taken \nexcluding Missing Steps (0)",cex=2) +
+        labs(title="Histogram of Daily Total Steps Taken \nReplaced Missing Steps (NA) with its median value at Interval Level",cex=2) +
         labs(x="Total Steps Taken per day per subject",ces=1.2) +
         scale_fill_gradient("Count", low = "green", high = "red") +
         scale_y_continuous("Count by days") +
@@ -312,10 +318,10 @@ xyplot(avg_step_interval ~ avg_data$interval|weekend,data=avg_data,
 
 <div class="rimage center"><img src="fig/unnamed-chunk-8.png" title="plot of chunk unnamed-chunk-8" alt="plot of chunk unnamed-chunk-8" class="plot" /></div>
 
-### Observations of difference in activity patterns between weekdays and weekends:
+## Observations of difference in activity patterns between weekdays and weekends:
 1. Subjects are generally less active during weekdays than they are during weekends;
 2. Except during morning rush hour from 8:00am to 9:00am where subjects took over 150 steps to get to work or school. 
 3. Once they reach their office or school, they (regrettably) become almost sedentary till 6:00pm!
 4. On weekends, however, subjects are more active throughtout the same from 8:00am to 8:00pm
 
-
+## End! 
